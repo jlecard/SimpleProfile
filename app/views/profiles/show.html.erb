@@ -1,0 +1,36 @@
+﻿<p>
+  <b><%= User.model_name.human %></b>
+  <%= @profile.user.full_name %>
+</p>
+<% if @profile.image.exists? then %>
+	<%= image_tag @profile.image.url(:thumb) %>
+<% end %>
+<p>
+  <b><%=Profile.human_attribute_name("description") %></b>
+  <%= @profile.description %>	
+</p>
+<p>
+  <b><%= I18n.t :full_address %></b>
+  <%= @profile.gmaps4rails_address %>	
+</p>
+<p><b><%= I18n.t :last_statuses %></b></p>
+<% @profile.last_statuses(5).each do |s| %>
+<p><%= I18n.t :status_messages, :message =>s.message, :date=>(l s.created_at) %> </p>
+<% end %> 
+<% gmaps4rails(@json) %>
+<%= gmaps({
+       "map_options" => { "auto_zoom" => false},
+       "markers"     => { "data" => @json }
+      })
+%>
+<p>
+  <b><%= User.human_attribute_name("last_login_at") %></b>
+  <%= l @profile.user.last_login unless  @profile.user.last_login.nil? %>	
+</p>
+
+<% if current_user.id == @profile.user.id %> 
+<%= link_to (I18n.t :edit_label), edit_profile_path(@profile) if current_user.id == @profile.user.id %> |
+<% end %>
+
+<%= link_to (I18n.t :back_label), profiles_path %>
+

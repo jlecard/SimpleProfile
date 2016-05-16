@@ -1,0 +1,28 @@
+<h1><%= pluralize(@profiles.count, Profile.model_name.human) %></h1>
+
+<table class="liste_profils">
+  <tr>
+    <th><%= Profile.human_attribute_name("image") %></th>
+    <th><%= Profile.human_attribute_name("user") %></th>
+    <th><%= Profile.human_attribute_name("city") %></th>
+    <th><%= Profile.human_attribute_name("country") %></th>
+    <th><%= User.human_attribute_name("last_login_at") %></th>
+    <th><%= Profile.human_attribute_name("status")  %></th>
+  </tr>
+<% @profiles.each do |profile| %>
+  <tr>
+    <td><%= image_tag profile.image.url(:thumb)  if profile.image.exists? %></td>
+    <td><%= link_to profile.user.full_name, profile_path(profile) %></td>
+    <td><%= profile.city %></td>
+    <td><%= profile.country %></td>
+    <td><%= localize profile.user.last_login_at if !profile.user.last_login_at.nil? %></td>
+    <td><%= profile.last_status_message %></td>
+  </tr>
+<% end %>
+</table>
+<%= will_paginate @profiles %>
+<h2><%= t :locations %></h2>
+<%= gmaps4rails(@json) %>
+
+<br />
+

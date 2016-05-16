@@ -1,0 +1,62 @@
+<%= form_for(@profile) do |f| %>
+  <% if @profile.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= I18n.t :errors_saving_model, :message=>pluralize(@profile.errors.count, "#{I18n.translate :error_occured}"),:model=>Profile.model_name.human %> </h2>
+
+      <ul>
+      <% @profile.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <%= f.fields_for :user do |user_f| %>
+  <div class="field">
+    <%= user_f.label :first_name %><br />
+    <%= user_f.text_field :first_name %>
+  </div>
+  <div class="field">
+    <%= user_f.label :last_name %><br />
+    <%= user_f.text_field :last_name %>
+  </div>
+  <div class="field">
+    <%= user_f.label :email %><br />
+    <%= user_f.text_field :email %>
+  </div>
+  <div class="field">
+    <%= user_f.label :password, f.object.new_record? ? nil : "Change password" %><br />
+    <%= user_f.password_field :password %><br />
+  </div>
+  <div class="field">
+    <%= user_f.label :password_confirmation %><br />
+    <%= user_f.password_field :password_confirmation %><br />
+  </div>
+  <% end %>
+  <div class="field">
+    <%= f.label :image %> <br />
+    <%= f.file_field :image %> <br />
+  </div>
+  <div class="field">
+    <%= f.label :street %><br />
+    <%= f.text_field :street %>
+  </div>
+  <div class="field">
+    <%= f.label :city %><br />
+    <%= f.text_field :city %>
+  </div>
+  <div class="field">
+    <%= f.label :zipcode %><br />
+    <%= f.text_field :zipcode %>
+  </div>
+  <div class="field">
+    <%= f.label :country %><br />
+    <%= f.text_field :country %>
+  </div>
+  <div class="field">
+    <%= f.label :description %><br />
+    <%= f.text_area :description %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
